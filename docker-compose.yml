@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: verusen_squirrels
+      POSTGRES_USER: enrique
+      POSTGRES_PASSWORD: adghfsiuafhg
+    ports:
+      - "5432:5432"
+
+  spark:
+    build:
+      context: .
+    depends_on:
+      - postgres
+    environment:
+      DB_HOST: postgres
+      DB_NAME: verusen_squirrels
+      DB_USER: enrique
+      POSTGRES_PASSWORD: adghfsiuafhg
+      IVY_HONE: /opt/bitnami/spark/.ivy2
+      SPARK_MASTER_URL: local[*]
+      SPARK_DRIVER_MEMORY: 1g
+      SPARK_EXECUTOR_MEMORY: 1g
+    volumes:
+      - ./data:/opt/spark-apps/data
+      - ./.ivy2:/opt/bitnami/spark/.ivy2
+    ports:
+      - '8080:8080'
+      - '7077:7077'
