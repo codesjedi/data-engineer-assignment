@@ -5,6 +5,7 @@ USER root
 RUN pip install pandas psycopg2-binary pyspark
 
 COPY etl_script.py /opt/spark-apps/
+COPY queries.sql /opt/spark-apps/
 
 RUN mkdir -p /opt/bitnami/spark/.ivy2 && \
     chown -R 1001:1001 /opt/bitnami/spark/.ivy2 && \
